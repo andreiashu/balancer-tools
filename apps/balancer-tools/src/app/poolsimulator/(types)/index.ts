@@ -24,9 +24,17 @@ export type GyroEParams = NumberGyroEParams<
   GyroEParamsFromSubgraph & DerivedGyroEParamsFromSubgraph
 >;
 
-export type CombinedParams = MetaStableParams & GyroEParams;
+export interface Gyro2Params {
+  swapFee?: number;
+  alpha?: number;
+  beta?: number;
+}
+
+export type CombinedParams = MetaStableParams & GyroEParams & Gyro2Params;
 
 export enum PoolTypeEnum {
   MetaStable = "MetaStable",
   GyroE = "GyroE",
+  Gyro2 = "Gyro2",
+  Gyro3 = "Gyro3",
 }

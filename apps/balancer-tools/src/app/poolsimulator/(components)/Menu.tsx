@@ -28,6 +28,8 @@ import { SearchPoolFormDialog } from "./SearchPoolFormDialog";
 const POOL_TYPES_MAPPER = {
   MetaStable: "Meta Stable",
   GyroE: "Gyro E-CLP",
+  Gyro2: "Gyro 2",
+  Gyro3: "Gyro 3",
 };
 
 function IndexMenu() {

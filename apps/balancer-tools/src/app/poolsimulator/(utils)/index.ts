@@ -70,6 +70,15 @@ export function convertAnalysisDataToAMM(data: AnalysisData) {
 }
 
 export function convertGqlToAnalysisData(poolData: PoolQuery): AnalysisData {
+  const tokensData =
+    poolData?.pool?.tokens
+      ?.filter((token) => token.address !== poolData?.pool?.address) // filter out BPT
+      .map((token) => ({
+        symbol: token?.symbol,
+        balance: Number(token?.balance),
+        rate: Number(token?.priceRate),
+        decimal: Number(token?.decimals),
+      })) || [];
   switch (poolData.pool?.poolType) {
     case PoolTypeEnum.GyroE:
       return {
@@ -91,15 +100,7 @@ export function convertGqlToAnalysisData(poolData: PoolQuery): AnalysisData {
           z: Number(poolData?.pool?.z),
           dSq: Number(poolData?.pool?.dSq),
         },
-        tokens:
-          poolData?.pool?.tokens
-            ?.filter((token) => token.address !== poolData?.pool?.address) // filter out BPT
-            .map((token) => ({
-              symbol: token?.symbol,
-              balance: Number(token?.balance),
-              rate: Number(token?.priceRate),
-              decimal: Number(token?.decimals),
-            })) || [],
+        tokens: tokensData,
       };
     case PoolTypeEnum.MetaStable:
       return {
@@ -108,15 +109,26 @@ export function convertGqlToAnalysisData(poolData: PoolQuery): AnalysisData {
           swapFee: Number(poolData?.pool?.swapFee),
           ampFactor: Number(poolData?.pool?.amp),
         },
-        tokens:
-          poolData?.pool?.tokens
-            ?.filter((token) => token.address !== poolData?.pool?.address) // filter out BPT
-            .map((token) => ({
-              symbol: token?.symbol,
-              balance: Number(token?.balance),
-              rate: Number(token?.priceRate),
-              decimal: Number(token?.decimals),
-            })) || [],
+        tokens: tokensData,
+      };
+    case PoolTypeEnum.Gyro2:
+      return {
+        poolType: PoolTypeEnum.Gyro2,
+        poolParams: {
+          swapFee: Number(poolData?.pool?.swapFee),
+          alpha: Number(poolData?.pool?.sqrtAlpha) ** 2,
+          beta: Number(poolData?.pool?.sqrtBeta),
+        },
+        tokens: tokensData,
+      };
+    case PoolTypeEnum.Gyro3:
+      return {
+        poolType: PoolTypeEnum.Gyro2,
+        poolParams: {
+          swapFee: Number(poolData?.pool?.swapFee),
+          alpha: Number(poolData?.pool?.root3Alpha) ** 3,
+        },
+        tokens: tokensData,
       };
     default:
       return {

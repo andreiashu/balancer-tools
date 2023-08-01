@@ -8,7 +8,9 @@ import { Form, FormField } from "#/components/ui/form";
 import { AnalysisData } from "#/contexts/PoolSimulatorContext";
 import { usePoolFormContext } from "#/contexts/PoolSimulatorFormContext";
 import {
-  ECLPSimulatorDataSchema,
+  Gyro2SimulatorDataSchema,
+  Gyro3SimulatorDataSchema,
+  GyroESimulatorDataSchema,
   StableSwapSimulatorDataSchema,
 } from "#/lib/schema";
 
@@ -17,7 +19,9 @@ import { TokenTable } from "./TokenTable";
 
 const schemaMapper = {
   [PoolTypeEnum.MetaStable]: StableSwapSimulatorDataSchema,
-  [PoolTypeEnum.GyroE]: ECLPSimulatorDataSchema,
+  [PoolTypeEnum.GyroE]: GyroESimulatorDataSchema,
+  [PoolTypeEnum.Gyro2]: Gyro2SimulatorDataSchema,
+  [PoolTypeEnum.Gyro3]: Gyro3SimulatorDataSchema,
 };
 
 interface IInput {
@@ -33,16 +37,36 @@ type InputMapperType = {
   [key: string]: IInput[];
 };
 
+const swapFeeInput = {
+  name: "swapFee" as const,
+  label: "Swap Fee",
+  placeholder: "Enter swap fee",
+  unit: "%",
+  transformFromDataToForm: (n?: number) => (n ? n * 100 : undefined),
+  transformFromFormToData: (n?: number) => (n ? n / 100 : undefined),
+};
+
+const alphaInput = {
+  name: "alpha" as const,
+  label: "Alpha",
+  placeholder: "Enter alpha",
+  unit: "",
+  transformFromDataToForm: (n?: number) => n,
+  transformFromFormToData: (n?: number) => n,
+};
+
+const betaInput = {
+  name: "beta" as const,
+  label: "Beta",
+  placeholder: "Enter beta",
+  unit: "",
+  transformFromDataToForm: (n?: number) => n,
+  transformFromFormToData: (n?: number) => n,
+};
+
 const inputMapper: InputMapperType = {
   [PoolTypeEnum.MetaStable]: [
-    {
-      name: "swapFee",
-      label: "Swap Fee",
-      placeholder: "Enter swap fee",
-      unit: "%",
-      transformFromDataToForm: (n) => (n ? n * 100 : undefined),
-      transformFromFormToData: (n) => (n ? n / 100 : undefined),
-    },
+    swapFeeInput,
     {
       name: "ampFactor",
       label: "Amplification Factor",
@@ -53,30 +77,9 @@ const inputMapper: InputMapperType = {
     },
   ],
   [PoolTypeEnum.GyroE]: [
-    {
-      name: "swapFee",
-      label: "Swap Fee",
-      placeholder: "Enter swap fee",
-      unit: "%",
-      transformFromDataToForm: (n) => (n ? n * 100 : undefined),
-      transformFromFormToData: (n) => (n ? n / 100 : undefined),
-    },
-    {
-      name: "alpha",
-      label: "Alpha",
-      placeholder: "Enter alpha",
-      unit: "",
-      transformFromDataToForm: (n) => n,
-      transformFromFormToData: (n) => n,
-    },
-    {
-      name: "beta",
-      label: "Beta",
-      placeholder: "Enter beta",
-      unit: "",
-      transformFromDataToForm: (n) => n,
-      transformFromFormToData: (n) => n,
-    },
+    swapFeeInput,
+    alphaInput,
+    betaInput,
     {
       name: "lambda",
       label: "Lambda",
@@ -102,6 +105,8 @@ const inputMapper: InputMapperType = {
       transformFromFormToData: (n) => n,
     },
   ],
+  [PoolTypeEnum.Gyro2]: [swapFeeInput, alphaInput, betaInput],
+  [PoolTypeEnum.Gyro3]: [swapFeeInput, alphaInput],
 };
 
 export function PoolParamsForm({

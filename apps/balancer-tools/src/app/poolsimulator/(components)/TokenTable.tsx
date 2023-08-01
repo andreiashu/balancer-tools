@@ -22,6 +22,7 @@ const customPadding = "py-4 px-1";
 const MAX_POOL_TOKENS_MAPPER = {
   [PoolTypeEnum.MetaStable]: 5,
   [PoolTypeEnum.GyroE]: 2,
+  [PoolTypeEnum.Gyro2]: 2,
 };
 
 export function TokenTable({ minTokens = 2 }: { minTokens?: number }) {
