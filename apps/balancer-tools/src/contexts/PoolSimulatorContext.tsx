@@ -28,6 +28,7 @@ export const POOL_TYPES: PoolType[] = [
   PoolTypeEnum.MetaStable,
   PoolTypeEnum.GyroE,
   PoolTypeEnum.Gyro2,
+  PoolTypeEnum.Gyro3,
 ];
 export interface AnalysisData {
   tokens: TokensData[];

@@ -224,13 +224,13 @@ export const GyroESimulatorDataSchema = z
 export const Gyro2SimulatorDataSchema = z
   .object({
     swapFee: z.coerce.number().positive().min(0.0001).max(10), //source: https://github.com/balancer/balancer-v2-monorepo/blob/c4cc3d466eaa3c1e5fa62d303208c6c4a10db48a/pkg/pool-utils/contracts/BasePool.sol#L74
-    alpha: z.coerce.number().min(0), //source: https://github.com/gyrostable/concentrated-lps/blob/7e9bd3b20dd52663afca04ca743808b1d6a9521f/contracts/eclp/GyroECLPMath.sol#L47C10-L47C60
-    beta: z.coerce.number().min(0), //source: https://github.com/gyrostable/concentrated-lps/blob/7e9bd3b20dd52663afca04ca743808b1d6a9521f/contracts/eclp/GyroECLPMath.sol#L47C10-L47C60
+    alpha: z.coerce.number().min(0), //source: https://github.com/gyrostable/concentrated-lps/blob/7e9bd3b20dd52663afca04ca743808b1d6a9521f/contracts/2clp/Gyro2CLPPool.sol#L51
+    beta: z.coerce.number().min(0), //source: https://github.com/gyrostable/concentrated-lps/blob/7e9bd3b20dd52663afca04ca743808b1d6a9521f/contracts/2clp/Gyro2CLPPool.sol#L51
     tokens: z.array(BaseTokenSchema).length(2),
   })
   .refine(
     (data) => {
-      return data.beta > data.alpha; //source: https://github.com/gyrostable/concentrated-lps/blob/7e9bd3b20dd52663afca04ca743808b1d6a9521f/contracts/eclp/GyroECLPMath.sol#L47C6-L47C6
+      return data.beta > data.alpha; //source: https://github.com/gyrostable/concentrated-lps/blob/7e9bd3b20dd52663afca04ca743808b1d6a9521f/contracts/2clp/Gyro2CLPPool.sol#L51
     },
     {
       message: "Beta must be greater than alpha",
@@ -239,8 +239,8 @@ export const Gyro2SimulatorDataSchema = z
 
 export const Gyro3SimulatorDataSchema = z.object({
   swapFee: z.coerce.number().positive().min(0.0001).max(10), //source: https://github.com/balancer/balancer-v2-monorepo/blob/c4cc3d466eaa3c1e5fa62d303208c6c4a10db48a/pkg/pool-utils/contracts/BasePool.sol#L74
-  alpha: z.coerce.number().min(0), //source: https://github.com/gyrostable/concentrated-lps/blob/7e9bd3b20dd52663afca04ca743808b1d6a9521f/contracts/eclp/GyroECLPMath.sol#L47C10-L47C60
-  tokens: z.array(BaseTokenSchema).length(2),
+  alpha: z.coerce.number().min(0), //source: https://github.com/gyrostable/concentrated-lps/blob/7e9bd3b20dd52663afca04ca743808b1d6a9521f/contracts/3clp/Gyro3CLPPool.sol#L98
+  tokens: z.array(BaseTokenSchema).length(3),
 });
 
 export const StableSwapSimulatorDataSchema = z.object({
