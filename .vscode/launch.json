@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "Balancer tools debug",
+          "type": "node",
+          "request": "launch",
+          "program": "${workspaceRoot}/packages/math-poolsimulator/node_modules/jest/bin/jest.js",
+          "stopOnEntry": false,
+          "args": [
+              "--config=packages/math-poolsimulator/jest.config.js",
+              "${workspaceRoot}/packages/math-poolsimulator/src/fx/index.test.ts",
+          ],
+          "cwd": "${workspaceRoot}",
+          "internalConsoleOptions": "openOnSessionStart"
+      }
+  ]
+}

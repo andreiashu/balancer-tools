@@ -15,7 +15,8 @@
     "@bleu-balancer-tools/utils": "workspace:^",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/constants": "^5.7.0",
-    "bignumber.js": "^9.1.1"
+    "bignumber.js": "^9.1.1",
+    "jest": "^29.6.1"
   },
   "devDependencies": {
     "@bleu-balancer-tools/tsconfig": "workspace:^",
